@@ -44,8 +44,8 @@ export default function AIChatOutput({
       // Skip empty lines that are just whitespace
       if (!line.trim()) return <div key={i} className="h-2" />;
 
-      // Strip markdown symbols
-      const cleanLine = line.replace(/\*\*/g, '').replace(/^-\s/, '').replace(/^#+\s/, '');
+      // Strip markdown symbols aggressive: remove ALL asterisks and hashtags
+      const cleanLine = line.replace(/[*#]/g, '').replace(/^-\s/, '');
 
       // Check for headers (all caps or similar)
       const isHeader = cleanLine === cleanLine.toUpperCase() && cleanLine.length > 5 && !cleanLine.includes('.');
