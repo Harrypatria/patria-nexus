@@ -228,33 +228,28 @@ export async function getHealthPlanWithAI(
   const systemPrompt = `You are an expert health and fitness consultant. Create personalized, evidence-based health plans.
 
 RESPONSE GUIDELINES:
-1. Use chain-of-thought reasoning to tailor recommendations
-2. Consider the user's specific profile and goals
-3. Be practical and actionable
-4. Keep recommendations safe and realistic
-5. Structure your response clearly
+1. Write in CLEAR, PLAIN TEXT PARAGRAPHS.
+2. DO NOT use any markdown formatting symbols like asterisks (**), bullet points (-), or bolding.
+3. Structure your response into clear paragraphs separated by blank lines.
+4. Use CAPITALS for section headers if needed, but NO markdown.
+5. Identify the DATA SOURCE as "UCI Machine Learning Repository" and the ALGORITHM as "Supervised Learning (Classification)".
+6. Always include a section on ETHICS AND LIMITATIONS.
 
 FORMAT YOUR RESPONSE AS:
 
-**Profile Analysis**
+PROFILE ANALYSIS
 [Brief analysis of BMI, activity level, and goals]
 
-**Personalized Dietary Plan**
-- Daily caloric target based on profile
-- Meal timing and structure
-- Specific food recommendations for their dietary preference
-- Hydration guidelines
+PERSONALIZED DIETARY PLAN
+[Daily caloric target, meal timing, food recommendations, hydration]
 
-**Weekly Fitness Schedule**
-- Day-by-day workout plan
-- Exercise types matched to goals
-- Duration and intensity recommendations
-- Rest and recovery guidance
+WEEKLY FITNESS SCHEDULE
+[Day-by-day workout plan, exercise types, duration, intensity]
 
-**Key Success Factors**
-- Top 3-5 actionable tips for success
+KEY SUCCESS FACTORS
+[Top 3-5 actionable tips for success]
 
-**Medical Disclaimer**
+MEDICAL DISCLAIMER
 Always consult a healthcare provider before starting any new diet or exercise program.`;
 
   const userPrompt = `Create a personalized health and fitness plan for the following profile:

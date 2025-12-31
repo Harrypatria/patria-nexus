@@ -124,29 +124,24 @@ export default function AIExplanation({ predictionData, className }: AIExplanati
             <div className="prose prose-sm max-w-none text-foreground">
               <div className="whitespace-pre-wrap leading-relaxed text-sm">
                 {explanation.split('\n').map((line, i) => {
-                  if (line.startsWith('**') && line.endsWith('**')) {
-                    return (
-                      <h4 key={i} className="font-heading font-semibold text-primary mt-4 mb-2 first:mt-0">
-                        {line.replace(/\*\*/g, '')}
-                      </h4>
-                    );
-                  }
-                  if (line.startsWith('- ')) {
-                    return (
-                      <p key={i} className="pl-4 py-0.5 text-muted-foreground">
-                        <span className="text-primary mr-2">&#x2022;</span>
-                        {line.slice(2)}
-                      </p>
-                    );
-                  }
-                  if (line.trim()) {
-                    return (
-                      <p key={i} className="text-muted-foreground py-1">
-                        {line}
-                      </p>
-                    );
-                  }
-                  return null;
+                  // Skip empty lines or render them as spacers
+                  if (!line.trim()) return <div key={i} className="h-2" />;
+
+                  // Check if line looks like a header (all caps or previously markdown)
+                  const isHeader = line === line.toUpperCase() && line.length > 5 && !line.includes('.');
+
+                  return (
+                    <p 
+                      key={i} 
+                      className={cn(
+                        "py-1",
+                        isHeader ? "font-semibold text-primary mt-4 mb-1" : "text-muted-foreground"
+                      )}
+                    >
+                      {/* Strip any lingering markdown just in case */}
+                      {line.replace(/\*\*/g, '').replace(/^-\s/, '')}
+                    </p>
+                  );
                 })}
               </div>
             </div>
