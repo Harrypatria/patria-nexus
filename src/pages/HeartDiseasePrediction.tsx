@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import AIExplanation from '@/components/AIExplanation';
+import MethodologyInfo from '@/components/MethodologyInfo';
 import { PredictionData } from '@/lib/openai';
 
 const DEFAULTS = {
@@ -316,6 +317,8 @@ export default function HeartDiseasePrediction() {
           <AIExplanation predictionData={predictionData} />
         </div>
       )}
+
+      <MethodologyInfo />
     </DashboardLayout>
   );
 }

@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AIExplanation from '@/components/AIExplanation';
+import MethodologyInfo from '@/components/MethodologyInfo';
 import { PredictionData } from '@/lib/openai';
 
 const DEFAULTS = {
@@ -386,6 +387,8 @@ export default function ParkinsonsPrediction() {
           <AIExplanation predictionData={predictionData} />
         </div>
       )}
+
+      <MethodologyInfo />
     </DashboardLayout>
   );
 }

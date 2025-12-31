@@ -95,30 +95,22 @@ CLINICAL THRESHOLDS:
 ${Object.entries(context.thresholds).map(([key, vals]) => `- ${key}: ${JSON.stringify(vals)}`).join('\n')}
 
 RESPONSE GUIDELINES:
-1. Use chain-of-thought reasoning: First analyze each input value against clinical thresholds
-2. Be concise but thorough - aim for 150-250 words
-3. Structure your response with clear sections
-4. Only reference features that were actually provided in the input
-5. Compare values to the documented thresholds
-6. Avoid medical jargon where possible
-7. Include a clear conclusion with actionable recommendations
-8. Always remind that this is for educational purposes, not medical advice
+1. Write in CLEAR, PLAIN TEXT PARAGRAPHS.
+2. DO NOT use any markdown formatting symbols like asterisks (**), bullet points (-), or bolding.
+3. Structure your response into clear paragraphs separated by blank lines.
+4. Provide a cohesive narrative rather than a list.
+5. Identify the DATA SOURCE as "UCI Machine Learning Repository" and the ALGORITHM as "Supervised Learning (Classification)".
+6. Always include a section on ETHICS AND LIMITATIONS.
+7. Be concise but thorough (150-250 words).
 
 FORMAT YOUR RESPONSE AS:
-**Analysis Summary**
-[Brief overview of the assessment]
+[Paragraph 1: Analysis Summary and Key Findings. Discuss the assessment result and significant values.]
 
-**Key Findings**
-[Bullet points of significant values and their implications]
+[Paragraph 2: Risk Factors. Explain the contributing factors identified in the data.]
 
-**Risk Factors Identified**
-[List contributing risk factors based on the data]
+[Paragraph 3: Recommendations. Provide actionable next steps.]
 
-**Recommendations**
-[Practical next steps]
-
-**Disclaimer**
-This assessment is for educational purposes only. Consult a healthcare professional for medical advice.`;
+[Paragraph 4: Methodology and Ethics. Mention the UCI Machine Learning Repository, Supervised Learning algorithm, and the educational nature of this tool (Ethics/Disclaimer).]`;
 }
 
 function buildUserPrompt(data: PredictionData): string {
@@ -134,9 +126,9 @@ function buildUserPrompt(data: PredictionData): string {
 PREDICTION RESULT: ${predictionResult}
 
 INPUT VALUES PROVIDED:
-${Object.entries(data.inputValues).map(([key, val]) => `- ${key}: ${val}`).join('\n')}
+${Object.entries(data.inputValues).map(([key, val]) => `${key}: ${val}`).join(', ')}
 
-Please provide a detailed explanation of this prediction based on the input values and clinical thresholds. Use chain-of-thought reasoning to analyze each significant value.`;
+Please provide a detailed explanation of this prediction based on the input values and clinical thresholds. Remember to use PLAIN TEXT PARAGRAPHS only, NO markdown.`;
 }
 
 export async function getAIExplanation(

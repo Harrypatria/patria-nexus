@@ -41,58 +41,15 @@ export default function AIChatOutput({
 
   const renderFormattedContent = (text: string) => {
     return text.split('\n').map((line, i) => {
-      // Headers with **
-      if (line.startsWith('**') && line.endsWith('**')) {
-        return (
-          <h3 key={i} className="font-heading font-semibold text-primary text-base mt-6 mb-3 first:mt-0">
-            {line.replace(/\*\*/g, '')}
-          </h3>
-        );
-      }
-      // Inline bold markers
-      if (line.includes('**')) {
-        const parts = line.split(/(\*\*[^*]+\*\*)/g);
-        return (
-          <p key={i} className="text-muted-foreground py-1">
-            {parts.map((part, j) => {
-              if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={j} className="text-foreground">{part.replace(/\*\*/g, '')}</strong>;
-              }
-              return part;
-            })}
-          </p>
-        );
-      }
-      // Bullet points
-      if (line.startsWith('- ')) {
-        return (
-          <p key={i} className="pl-4 py-0.5 text-muted-foreground">
-            <span className="text-primary mr-2">&#x2022;</span>
-            {line.slice(2)}
-          </p>
-        );
-      }
-      // Numbered lists
-      if (/^\d+\.\s/.test(line)) {
-        const match = line.match(/^(\d+)\.\s(.*)$/);
-        if (match) {
-          return (
-            <p key={i} className="pl-4 py-0.5 text-muted-foreground">
-              <span className="text-primary font-medium mr-2">{match[1]}.</span>
-              {match[2]}
-            </p>
-          );
-        }
-      }
-      // Regular paragraphs
-      if (line.trim()) {
-        return (
-          <p key={i} className="text-muted-foreground py-1 leading-relaxed">
-            {line}
-          </p>
-        );
-      }
-      return null;
+      // Skip empty lines that are just whitespace
+      if (!line.trim()) return null;
+
+      // Render everything as a clean paragraph
+      return (
+        <p key={i} className="text-muted-foreground py-2 leading-relaxed text-justify">
+          {line.trim()}
+        </p>
+      );
     });
   };
 

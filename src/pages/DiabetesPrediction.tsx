@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import AIExplanation from '@/components/AIExplanation';
+import MethodologyInfo from '@/components/MethodologyInfo';
 import { PredictionData } from '@/lib/openai';
 
 // Default values for normal health conditions
@@ -263,6 +264,9 @@ export default function DiabetesPrediction() {
           <AIExplanation predictionData={predictionData} />
         </div>
       )}
+
+
+      <MethodologyInfo />
     </DashboardLayout>
   );
 }

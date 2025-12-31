@@ -106,15 +106,15 @@ export default function AppSidebar({ isOpen, onToggle, isMobile = false }: AppSi
           "flex items-center gap-3 p-4 border-b border-sidebar-border",
           !isOpen && "justify-center"
         )}>
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-sidebar-primary text-sidebar-primary-foreground flex-shrink-0">
-            <Activity className="h-5 w-5" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-white flex-shrink-0 overflow-hidden">
+            <img src="/Logo.png" alt="Patria & Co." className="w-full h-full object-contain" />
           </div>
           {isOpen && (
             <div className="overflow-hidden">
               <h1 className="font-heading font-bold text-sidebar-foreground text-sm leading-tight truncate">
-                AI Health Copilot
+                Patria & Co.
               </h1>
-              <p className="text-sidebar-foreground/60 text-xs truncate">Pro Edition</p>
+              <p className="text-sidebar-foreground/60 text-xs truncate">Harry Patria 2026</p>
             </div>
           )}
         </div>

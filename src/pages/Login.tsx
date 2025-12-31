@@ -51,16 +51,18 @@ export default function Login() {
       <div className="w-full max-w-md mb-8 text-center animate-fade-in">
         <div className="bg-hero-gradient rounded-2xl p-8 text-primary-foreground shadow-professional-lg mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Activity className="h-10 w-10" />
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-1">
+              <img src="/Logo.png" alt="Patria & Co." className="w-full h-full object-contain" />
+            </div>
             <h1 className="font-heading text-2xl md:text-3xl font-bold">
-              AI Health Copilot Pro
+              Patria & Co.
             </h1>
           </div>
           <p className="text-primary-foreground/90 text-lg">
-            Advanced Multi-Disease Prediction System
+            Data, AI and Strategy Consultant
           </p>
           <p className="text-primary-foreground/70 text-sm mt-2">
-            Powered by Machine Learning and Generative AI
+            Harry Patria 2026
           </p>
         </div>
       </div>
