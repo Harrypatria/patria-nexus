@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AIExplanation from '@/components/AIExplanation';
+import { PredictionData } from '@/lib/openai';
 
 const DEFAULTS = {
   fo: 150.0,
@@ -37,6 +39,7 @@ export default function ParkinsonsPrediction() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ prediction: boolean; latency: number } | null>(null);
+  const [predictionData, setPredictionData] = useState<PredictionData | null>(null);
   
   const [formData, setFormData] = useState(DEFAULTS);
 
@@ -69,6 +72,36 @@ export default function ParkinsonsPrediction() {
       latency,
     });
 
+    // Set prediction data for AI explanation
+    setPredictionData({
+      disease: 'parkinsons',
+      prediction: isHighRisk,
+      inputValues: {
+        'MDVP:Fo(Hz)': formData.fo,
+        'MDVP:Fhi(Hz)': formData.fhi,
+        'MDVP:Flo(Hz)': formData.flo,
+        'MDVP:Jitter(%)': formData.jitterPercent,
+        'MDVP:Jitter(Abs)': formData.jitterAbs,
+        'MDVP:RAP': formData.rap,
+        'MDVP:PPQ': formData.ppq,
+        'Jitter:DDP': formData.ddp,
+        'MDVP:Shimmer': formData.shimmer,
+        'MDVP:Shimmer(dB)': formData.shimmerDb,
+        'Shimmer:APQ3': formData.apq3,
+        'Shimmer:APQ5': formData.apq5,
+        'MDVP:APQ': formData.apq,
+        'Shimmer:DDA': formData.dda,
+        'NHR': formData.nhr,
+        'HNR': formData.hnr,
+        'RPDE': formData.rpde,
+        'DFA': formData.dfa,
+        'spread1': formData.spread1,
+        'spread2': formData.spread2,
+        'D2': formData.d2,
+        'PPE': formData.ppe,
+      },
+    });
+
     toast({
       title: isHighRisk ? "Indicators Detected" : "No Indicators Detected",
       description: `Analysis completed in ${latency.toFixed(2)}ms`,
@@ -82,7 +115,7 @@ export default function ParkinsonsPrediction() {
     <DashboardLayout>
       <PageHeader
         title="Parkinsons Disease Assessment"
-        description="Advanced voice analysis for neurological health screening"
+        description="Voice analysis using the UCI Parkinsons Voice Dataset with 22 biomedical measurements"
         icon={<Brain className="h-6 w-6" />}
       />
 
@@ -347,6 +380,12 @@ export default function ParkinsonsPrediction() {
           </div>
         )}
       </SectionCard>
+
+      {predictionData && (
+        <div className="mt-6">
+          <AIExplanation predictionData={predictionData} />
+        </div>
+      )}
     </DashboardLayout>
   );
 }
