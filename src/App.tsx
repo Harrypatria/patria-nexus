@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ApiKeyProvider } from "@/contexts/ApiKeyContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -19,65 +20,25 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/diabetes"
-              element={
-                <ProtectedRoute>
-                  <DiabetesPrediction />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/heart-disease"
-              element={
-                <ProtectedRoute>
-                  <HeartDiseasePrediction />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/parkinsons"
-              element={
-                <ProtectedRoute>
-                  <ParkinsonsPrediction />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/health-planner"
-              element={
-                <ProtectedRoute>
-                  <HealthPlanner />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ApiKeyProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/diabetes" element={<ProtectedRoute><DiabetesPrediction /></ProtectedRoute>} />
+              <Route path="/heart-disease" element={<ProtectedRoute><HeartDiseasePrediction /></ProtectedRoute>} />
+              <Route path="/parkinsons" element={<ProtectedRoute><ParkinsonsPrediction /></ProtectedRoute>} />
+              <Route path="/health-planner" element={<ProtectedRoute><HealthPlanner /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ApiKeyProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import AIExplanation from '@/components/AIExplanation';
+import { PredictionData } from '@/lib/openai';
 
 // Default values for normal health conditions
 const DEFAULTS = {
@@ -23,6 +25,7 @@ export default function DiabetesPrediction() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ prediction: boolean; latency: number } | null>(null);
+  const [predictionData, setPredictionData] = useState<PredictionData | null>(null);
   
   const [formData, setFormData] = useState(DEFAULTS);
 
@@ -56,6 +59,22 @@ export default function DiabetesPrediction() {
       latency,
     });
 
+    // Set prediction data for AI explanation
+    setPredictionData({
+      disease: 'diabetes',
+      prediction: isHighRisk,
+      inputValues: {
+        pregnancies: formData.pregnancies,
+        glucose: formData.glucose,
+        bloodPressure: formData.bloodPressure,
+        skinThickness: formData.skinThickness,
+        insulin: formData.insulin,
+        bmi: formData.bmi,
+        pedigree: formData.pedigree,
+        age: formData.age,
+      },
+    });
+
     toast({
       title: isHighRisk ? "High Risk Detected" : "Low Risk Detected",
       description: `Analysis completed in ${latency.toFixed(2)}ms`,
@@ -69,7 +88,7 @@ export default function DiabetesPrediction() {
     <DashboardLayout>
       <PageHeader
         title="Diabetes Risk Assessment"
-        description="Machine learning-based analysis for diabetes prediction"
+        description="Machine learning-based analysis using the Pima Indians Diabetes Database"
         icon={<Droplets className="h-6 w-6" />}
       />
 
@@ -238,6 +257,12 @@ export default function DiabetesPrediction() {
           </div>
         )}
       </SectionCard>
+
+      {predictionData && (
+        <div className="mt-6">
+          <AIExplanation predictionData={predictionData} />
+        </div>
+      )}
     </DashboardLayout>
   );
 }

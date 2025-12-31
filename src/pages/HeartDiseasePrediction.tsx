@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import AIExplanation from '@/components/AIExplanation';
+import { PredictionData } from '@/lib/openai';
 
 const DEFAULTS = {
   age: 50,
@@ -28,6 +30,7 @@ export default function HeartDiseasePrediction() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ prediction: boolean; latency: number } | null>(null);
+  const [predictionData, setPredictionData] = useState<PredictionData | null>(null);
   
   const [formData, setFormData] = useState(DEFAULTS);
 
@@ -61,6 +64,27 @@ export default function HeartDiseasePrediction() {
       latency,
     });
 
+    // Set prediction data for AI explanation
+    setPredictionData({
+      disease: 'heart',
+      prediction: isHighRisk,
+      inputValues: {
+        age: formData.age,
+        sex: formData.sex === 1 ? 'Male' : 'Female',
+        chestPainType: ['Typical Angina', 'Atypical Angina', 'Non-anginal Pain', 'Asymptomatic'][formData.cp],
+        restingBloodPressure: formData.trestbps,
+        cholesterol: formData.chol,
+        fastingBloodSugar: formData.fbs === 1 ? '>120 mg/dl' : '<=120 mg/dl',
+        restingECG: ['Normal', 'ST-T Abnormality', 'LV Hypertrophy'][formData.restecg],
+        maxHeartRate: formData.thalach,
+        exerciseAngina: formData.exang === 1 ? 'Yes' : 'No',
+        stDepression: formData.oldpeak,
+        stSlope: ['Downsloping', 'Flat', 'Upsloping'][formData.slope],
+        majorVessels: formData.ca,
+        thalassemia: ['Normal', 'Fixed Defect', 'Reversible Defect', 'Unknown'][formData.thal],
+      },
+    });
+
     toast({
       title: isHighRisk ? "High Risk Detected" : "Low Risk Detected",
       description: `Analysis completed in ${latency.toFixed(2)}ms`,
@@ -74,7 +98,7 @@ export default function HeartDiseasePrediction() {
     <DashboardLayout>
       <PageHeader
         title="Cardiovascular Risk Assessment"
-        description="Comprehensive heart health analysis using advanced algorithms"
+        description="Analysis using the Cleveland Heart Disease Dataset with 14 clinical attributes"
         icon={<Heart className="h-6 w-6" />}
       />
 
@@ -286,6 +310,12 @@ export default function HeartDiseasePrediction() {
           </div>
         )}
       </SectionCard>
+
+      {predictionData && (
+        <div className="mt-6">
+          <AIExplanation predictionData={predictionData} />
+        </div>
+      )}
     </DashboardLayout>
   );
 }
