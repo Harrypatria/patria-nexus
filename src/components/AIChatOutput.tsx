@@ -42,12 +42,21 @@ export default function AIChatOutput({
   const renderFormattedContent = (text: string) => {
     return text.split('\n').map((line, i) => {
       // Skip empty lines that are just whitespace
-      if (!line.trim()) return null;
+      if (!line.trim()) return <div key={i} className="h-2" />;
+
+      // Strip markdown symbols
+      const cleanLine = line.replace(/\*\*/g, '').replace(/^-\s/, '').replace(/^#+\s/, '');
+
+      // Check for headers (all caps or similar)
+      const isHeader = cleanLine === cleanLine.toUpperCase() && cleanLine.length > 5 && !cleanLine.includes('.');
 
       // Render everything as a clean paragraph
       return (
-        <p key={i} className="text-muted-foreground py-2 leading-relaxed text-justify">
-          {line.trim()}
+        <p key={i} className={cn(
+          "py-1 leading-relaxed text-justify",
+          isHeader ? "font-semibold text-primary mt-4 mb-1" : "text-muted-foreground"
+        )}>
+          {cleanLine}
         </p>
       );
     });

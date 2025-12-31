@@ -130,6 +130,9 @@ export default function AIExplanation({ predictionData, className }: AIExplanati
                   // Check if line looks like a header (all caps or previously markdown)
                   const isHeader = line === line.toUpperCase() && line.length > 5 && !line.includes('.');
 
+                  // Strip any lingering markdown just in case (bold, bullets, headers)
+                  const cleanLine = line.replace(/\*\*/g, '').replace(/^-\s/, '').replace(/^#+\s/, '');
+
                   return (
                     <p 
                       key={i} 
@@ -138,8 +141,7 @@ export default function AIExplanation({ predictionData, className }: AIExplanati
                         isHeader ? "font-semibold text-primary mt-4 mb-1" : "text-muted-foreground"
                       )}
                     >
-                      {/* Strip any lingering markdown just in case */}
-                      {line.replace(/\*\*/g, '').replace(/^-\s/, '')}
+                      {cleanLine}
                     </p>
                   );
                 })}
