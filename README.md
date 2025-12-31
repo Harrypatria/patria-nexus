@@ -65,8 +65,13 @@ Advanced Multi-Disease Prediction System powered by Machine Learning and Generat
    ```bash
    git remote add origin <your-repository-url>
    git branch -M main
+   git branch -M main
    git push -u origin main
    ```
+   > **Note:** If you see "error: remote origin already exists", use this command instead of `git remote add`:
+   > ```bash
+   > git remote set-url origin <your-repository-url>
+   > ```
 
 ## Deployment
 
